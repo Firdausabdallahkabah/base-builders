@@ -3,23 +3,17 @@
 import React from 'react';
 import {Transak, TransakConfig} from '@transak/transak-sdk';
 
-export default function App() {
-
-  const transakConfig: TransakConfig = {
-    apiKey: "",
-    environment: Transak.ENVIRONMENTS.STAGING,
-    walletAddress
-  }
+export default function FiatOnRamp() {
   const openTransak = () => {
     const transak = new Transak({
       apiKey: 'YOUR_API_KEY', // Replace with your Transak API key
-      environment: "STAGING", // Use Environments.PRODUCTION for live
+      environment: Transak.ENVIRONMENTS.STAGING, // Use Environments.PRODUCTION for live
       walletAddress: '0xYourWalletAddress', // Replace with the user's wallet address
       themeColor: 'blue',
     });
 
     transak.init();
-    transak.on(transak.EVENTS.TRANSAK_ORDER_SUCCESSFUL, (orderData) => {
+    Transak.on(Transak.EVENTS.TRANSAK_ORDER_SUCCESSFUL, (orderData) => {
       console.log('Transak Order Successful:', orderData);
       transak.close();
     });
