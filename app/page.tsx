@@ -1,10 +1,14 @@
+"use client";
+
 import React from 'react';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
-import { useAccount, useSwitchNetwork } from 'wagmi';
+import { useAccount } from 'wagmi';
+import SmartWalletSetup from './components/SmartWalletSetup';
+import FiatOnRamp from './components/FiatOnRamp';
+import ExploreDApps from './components/ExploreDApps';
 
 export default function Home() {
   const { address, isConnected } = useAccount();
-  const { switchNetwork } = useSwitchNetwork();
 
   return (
     <main className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-8">
@@ -16,6 +20,9 @@ export default function Home() {
           Connected Wallet: <span className="font-mono">{address}</span>
         </p>
       )}
+      <SmartWalletSetup />
+      <FiatOnRamp />
+      <ExploreDApps />
       <p className="mt-6 text-gray-700">
         Need tokens? Visit the{' '}
         <a
