@@ -1,15 +1,25 @@
 "use client";
 
 import React from 'react';
+import { useAccount } from 'wagmi';
 import {Transak, TransakConfig} from '@transak/transak-sdk';
 
 export default function FiatOnRamp() {
+  const { address } = useAccount();
+
   const openTransak = () => {
+    if (!address) {
+      alert('Please connect your wallet first');
+      return;
+    }
+
     const transak = new Transak({
-      apiKey: 'YOUR_API_KEY', // Replace with your Transak API key
+      apiKey: process.env.NEXT_PUBLIC_TRANSAK_API_KEY || '', // Using environment variable
       environment: Transak.ENVIRONMENTS.STAGING, // Use Environments.PRODUCTION for live
-      walletAddress: '0xYourWalletAddress', // Replace with the user's wallet address
+      walletAddress: address, // Using connected wallet address
       themeColor: 'blue',
+      defaultCryptoCurrency: 'ETH',
+      networks: 'base',
     });
 
     transak.init();
@@ -17,6 +27,7 @@ export default function FiatOnRamp() {
       console.log('Transak Order Successful:', orderData);
       transak.close();
     });
+
   };
 
   return (
